@@ -1,0 +1,83 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+    provider = "postgres"
+    url      = env("DATABASE_URL")
+}
+
+model user {
+    id         Int       @id @default(autoincrement())
+    rec_status Boolean   @default(true)
+    created_on DateTime  @default(now())
+    updated_on DateTime? @updatedAt
+    created_by Int?
+    updated_by Int?
+
+    email        String  @unique
+    phone_number String  @unique
+    password     String
+    first_name   String
+    last_name    String
+    company_name String?
+    role         role
+
+    created_by_user user? @relation("created_ref", fields: [created_by], references: [id])
+    updated_by_user user? @relation("updated_ref", fields: [updated_by], references: [id])
+
+    created_users user[] @relation("created_ref")
+    updated_users user[] @relation("updated_ref")
+
+    created_jobs         job[]         @relation("job_created_by_ref")
+    updated_jobs         job[]         @relation("job_updated_by_ref")
+    created_applications application[] @relation("application_created_by_ref")
+    updated_applications application[] @relation("application_updated_by_ref")
+}
+
+model job {
+    id         Int       @id @default(autoincrement())
+    rec_status Boolean   @default(true)
+    created_on DateTime  @default(now())
+    updated_on DateTime? @updatedAt
+    created_by Int
+    updated_by Int?
+
+    title       String
+    location    String
+    salary      Int
+    description String
+
+    job_created_by user  @relation("job_created_by_ref", fields: [created_by], references: [id])
+    job_updated_by user? @relation("job_updated_by_ref", fields: [updated_by], references: [id])
+
+    applications application[] @relation("application_job_ref")
+}
+
+model application {
+    id         Int       @id @default(autoincrement())
+    rec_status Boolean   @default(true)
+    created_on DateTime  @default(now())
+    updated_on DateTime? @updatedAt
+    created_by Int
+    updated_by Int?
+
+    status application_status
+    jobId  Int
+
+    application_created_by user  @relation("application_created_by_ref", fields: [created_by], references: [id])
+    application_updated_by user? @relation("application_updated_by_ref", fields: [updated_by], references: [id])
+    job                    job   @relation("application_job_ref", fields: [jobId], references: [id])
+}
+
+enum role {
+    CANDIDATE
+    RECRUITER
+}
+
+enum application_status {
+    PENDING
+    ACCEPTED
+    REJECTED
+}

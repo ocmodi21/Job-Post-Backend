@@ -23,6 +23,7 @@ model user {
     last_name    String
     company_name String?
     role         role
+    verified     Boolean @default(false)
 
     created_by_user user? @relation("created_ref", fields: [created_by], references: [id])
     updated_by_user user? @relation("updated_ref", fields: [updated_by], references: [id])
@@ -44,10 +45,12 @@ model job {
     created_by Int
     updated_by Int?
 
-    title       String
-    location    String
-    salary      Int
-    description String
+    title        String
+    location     String
+    salary       String
+    description  String
+    company_name String
+    status       job_status @default(OPEN)
 
     job_created_by user  @relation("job_created_by_ref", fields: [created_by], references: [id])
     job_updated_by user? @relation("job_updated_by_ref", fields: [updated_by], references: [id])
@@ -63,7 +66,7 @@ model application {
     created_by Int
     updated_by Int?
 
-    status application_status
+    status application_status @default(PENDING)
     jobId  Int
 
     application_created_by user  @relation("application_created_by_ref", fields: [created_by], references: [id])
@@ -80,4 +83,9 @@ enum application_status {
     PENDING
     ACCEPTED
     REJECTED
+}
+
+enum job_status {
+    OPEN
+    CLOSE
 }

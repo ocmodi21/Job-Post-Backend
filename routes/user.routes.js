@@ -6,4 +6,6 @@ router.post("/register", userControllers.register);
 
 router.post("/login", userControllers.login);
 
+router.get("/verify/:token", userControllers.verifyUser);
+
 module.exports = router;

@@ -36,7 +36,7 @@ const sendUserVerification = async (email, token) => {
   }
 };
 
-const sendAppliedApplication = async (email, job) => {
+const sendAppliedApplication = async(email, job) => {
   const transporter = nodemailer.createTransport({
     service: process.env.SERVICE,
     host: process.env.HOST,
@@ -46,6 +46,8 @@ const sendAppliedApplication = async (email, job) => {
       pass: process.env.AUTH_PASS,
     },
   });
+
+
 
   const emailConfig = {
     from: "Job Portal <nirmittestcase@gmail.com>",
@@ -66,7 +68,7 @@ const sendAppliedApplication = async (email, job) => {
       message: "Email not sent.",
     };
   }
-};
+}
 
 const sendApplicationUpdate = async (email, job, application) => {
   const transporter = nodemailer.createTransport({
@@ -78,6 +80,8 @@ const sendApplicationUpdate = async (email, job, application) => {
       pass: process.env.AUTH_PASS,
     },
   });
+
+
 
   const emailConfig = {
     from: "Job Portal <nirmittestcase@gmail.com>",
@@ -103,5 +107,5 @@ const sendApplicationUpdate = async (email, job, application) => {
 module.exports = {
   sendUserVerification,
   sendAppliedApplication,
-  sendApplicationUpdate,
+  sendApplicationUpdate
 };

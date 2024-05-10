@@ -13,7 +13,7 @@ const newJobs = async (req, res) => {
       where: {
         NOT: {
           applications: {
-            some: { id },
+            some: { created_by: id },
           },
         },
       },
@@ -22,6 +22,7 @@ const newJobs = async (req, res) => {
 
     return res.status(200).json({ data: jobs });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -42,7 +43,7 @@ const applyJob = async (req, res) => {
 
     const existingApplication = await prisma.application.findFirst({
       where: {
-        id,
+        created_by: id,
         jobId,
       },
     });
@@ -80,11 +81,12 @@ const appliedJobs = async (req, res) => {
       return res.status(403).json({ message: "You are not authorized." });
 
     const applications = await prisma.application.findMany({
-      where: { id },
+      where: { created_by: id },
       include: { job: true },
     });
     return res.json(applications);
   } catch (e) {
+    console.log(e);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };

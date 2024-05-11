@@ -16,7 +16,7 @@ const sendUserVerification = async (email, token) => {
   const url = process.env.URL + token;
 
   const emailConfig = {
-    from: "Job Portal <nirmittestcase@gmail.com>",
+    from: "Job Portal <ocmodi2117@gmail.com>",
     to: email,
     subject: "Email Verification",
     text: `Please click on the below link to verify your email. ${url}`,
@@ -36,7 +36,7 @@ const sendUserVerification = async (email, token) => {
   }
 };
 
-const sendAppliedApplication = async(email, job) => {
+const sendAppliedApplication = async (email, job) => {
   const transporter = nodemailer.createTransport({
     service: process.env.SERVICE,
     host: process.env.HOST,
@@ -47,10 +47,8 @@ const sendAppliedApplication = async(email, job) => {
     },
   });
 
-
-
   const emailConfig = {
-    from: "Job Portal <nirmittestcase@gmail.com>",
+    from: "Job Portal <ocmodi2117@gmail.com>",
     to: email,
     subject: "Application Submitted",
     text: `Your application for ${job.title} at ${job.company_name} has been submitted. Come back later for the updated application status.`,
@@ -68,7 +66,7 @@ const sendAppliedApplication = async(email, job) => {
       message: "Email not sent.",
     };
   }
-}
+};
 
 const sendApplicationUpdate = async (email, job, application) => {
   const transporter = nodemailer.createTransport({
@@ -81,10 +79,8 @@ const sendApplicationUpdate = async (email, job, application) => {
     },
   });
 
-
-
   const emailConfig = {
-    from: "Job Portal <nirmittestcase@gmail.com>",
+    from: "Job Portal <ocmodi2117@gmail.com>",
     to: email,
     subject: "Application Status Update",
     text: `Your application status for ${job.title} at ${job.company_name} has been updated to ${application.status}. Please check job portal for more details.`,
@@ -107,5 +103,5 @@ const sendApplicationUpdate = async (email, job, application) => {
 module.exports = {
   sendUserVerification,
   sendAppliedApplication,
-  sendApplicationUpdate
+  sendApplicationUpdate,
 };
